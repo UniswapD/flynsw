@@ -1,0 +1,556 @@
+{
+  "id": "e38bbce9-2e6c-42d4-bdaf-f0af3f6eda07",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.forecasts": {
+      "name": "forecasts",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "site_id": {
+          "name": "site_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "forecast_time": {
+          "name": "forecast_time",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "fetched_at": {
+          "name": "fetched_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "provider": {
+          "name": "provider",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "wind_speed": {
+          "name": "wind_speed",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "wind_direction": {
+          "name": "wind_direction",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "wind_gust": {
+          "name": "wind_gust",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "temperature": {
+          "name": "temperature",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "precipitation": {
+          "name": "precipitation",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "precipitation_probability": {
+          "name": "precipitation_probability",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cloud_cover": {
+          "name": "cloud_cover",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "raw_data": {
+          "name": "raw_data",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "forecasts_site_id_sites_id_fk": {
+          "name": "forecasts_site_id_sites_id_fk",
+          "tableFrom": "forecasts",
+          "tableTo": "sites",
+          "columnsFrom": [
+            "site_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.pilot_preferences": {
+      "name": "pilot_preferences",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "session_id": {
+          "name": "session_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rating": {
+          "name": "rating",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'PG3'"
+        },
+        "conservatism": {
+          "name": "conservatism",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'normal'"
+        },
+        "home_lat": {
+          "name": "home_lat",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "home_lon": {
+          "name": "home_lon",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "pilot_preferences_session_id_unique": {
+          "name": "pilot_preferences_session_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "session_id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.scores": {
+      "name": "scores",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "site_id": {
+          "name": "site_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "forecast_time": {
+          "name": "forecast_time",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "calculated_at": {
+          "name": "calculated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "score_pg2": {
+          "name": "score_pg2",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "score_pg3": {
+          "name": "score_pg3",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "score_pg4": {
+          "name": "score_pg4",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "score_pg5": {
+          "name": "score_pg5",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "label_pg2": {
+          "name": "label_pg2",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "label_pg3": {
+          "name": "label_pg3",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "label_pg4": {
+          "name": "label_pg4",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "label_pg5": {
+          "name": "label_pg5",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reasons_pg2": {
+          "name": "reasons_pg2",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reasons_pg3": {
+          "name": "reasons_pg3",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reasons_pg4": {
+          "name": "reasons_pg4",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reasons_pg5": {
+          "name": "reasons_pg5",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "wind_angle_off": {
+          "name": "wind_angle_off",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cross_component": {
+          "name": "cross_component",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gust_spread": {
+          "name": "gust_spread",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "confidence": {
+          "name": "confidence",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "scores_site_id_sites_id_fk": {
+          "name": "scores_site_id_sites_id_fk",
+          "tableFrom": "scores",
+          "tableTo": "sites",
+          "columnsFrom": [
+            "site_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sites": {
+      "name": "sites",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "region": {
+          "name": "region",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "launch_lat": {
+          "name": "launch_lat",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "launch_lon": {
+          "name": "launch_lon",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "launch_elevation": {
+          "name": "launch_elevation",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "landing_lat": {
+          "name": "landing_lat",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "landing_lon": {
+          "name": "landing_lon",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ideal_wind_direction": {
+          "name": "ideal_wind_direction",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "wind_sector_start": {
+          "name": "wind_sector_start",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "wind_sector_end": {
+          "name": "wind_sector_end",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "min_wind_speed": {
+          "name": "min_wind_speed",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 8
+        },
+        "max_wind_speed_pg2": {
+          "name": "max_wind_speed_pg2",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 14
+        },
+        "max_wind_speed_pg3": {
+          "name": "max_wind_speed_pg3",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 16
+        },
+        "max_wind_speed_pg4": {
+          "name": "max_wind_speed_pg4",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 20
+        },
+        "max_wind_speed_pg5": {
+          "name": "max_wind_speed_pg5",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 24
+        },
+        "min_rating": {
+          "name": "min_rating",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'PG2'"
+        },
+        "requires_supervision": {
+          "name": "requires_supervision",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "requires_radio": {
+          "name": "requires_radio",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "requires_induction": {
+          "name": "requires_induction",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "hazards": {
+          "name": "hazards",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "site_guide_url": {
+          "name": "site_guide_url",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "webcam_url": {
+          "name": "webcam_url",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "weather_station_url": {
+          "name": "weather_station_url",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "admin_club": {
+          "name": "admin_club",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "sites_slug_unique": {
+          "name": "sites_slug_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "slug"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
